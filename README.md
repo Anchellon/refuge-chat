@@ -1,73 +1,83 @@
-# React + TypeScript + Vite
+# Database Chat Assistant
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern chat interface that allows users to query databases using natural language, powered by a local LLM. Built with React, TypeScript, Tailwind CSS, and shadcn/ui.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Natural Language Queries**: Ask questions about your database in plain English
+- **Real-time Chat Interface**: Modern, responsive chat UI with message history
+- **Type-Safe**: Built with TypeScript for reliability and better developer experience
+- **Local LLM Ready**: Designed to work with local LLMs (Ollama, llama.cpp, etc.)
+- **Mock Backend**: Includes realistic mock responses for testing and development
+- **Accessible UI**: Built with shadcn/ui components for accessibility out of the box
+- **Dark Mode Support**: Automatic theme support through shadcn/ui
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Routing**: React Router DOM
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui (Radix UI primitives)
+- **Icons**: Lucide React
+- **Type Safety**: TypeScript with strict mode
 
-## Expanding the ESLint configuration
+## 📋 Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js 18+ 
+- npm or yarn
+- (Optional) Local LLM setup (Ollama, llama.cpp, etc.)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🔧 Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd poc
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Install required packages for shadcn**
+   ```bash
+   npm install clsx tailwind-merge class-variance-authority
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser**
+   ```
+   http://localhost:5173
+   ```
+
+## 📁 Project Structure
+
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+src/
+├── components/
+│   └── ui/                      # shadcn/ui components
+│       ├── button.tsx
+│       ├── input.tsx
+│       ├── card.tsx
+│       └── scroll-area.tsx
+├── features/
+│   └── chat/
+│       ├── components/
+│       │   ├── ChatInterface.tsx    # Main chat UI
+│       │   └── MessageBubble.tsx    # Message display
+│       └── types/
+│           └── chat.types.ts        # TypeScript types
+├── pages/
+│   └── ChatPage.tsx                 # Chat page route
+├── services/
+│   └── llmService.ts                # API communication (currently mocked)
+├── lib/
+│   └── utils.ts                     # Utility functions
+└── App.tsx                          # Router configuration
 ```
