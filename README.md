@@ -41,17 +41,12 @@ A modern chat interface that allows users to query databases using natural langu
    npm install
    ```
 
-3. **Install required packages for shadcn**
-   ```bash
-   npm install clsx tailwind-merge class-variance-authority
-   ```
-
-4. **Start the development server**
+3. **Start the development server**
    ```bash
    npm run dev
    ```
 
-5. **Open your browser**
+4. **Open your browser**
    ```
    http://localhost:5173
    ```
