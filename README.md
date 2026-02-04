@@ -1,4 +1,4 @@
-# Database Chat Assistant
+# Refuge Chat : chat Assistant for people experiencing/ about to experience homelessness
 
 A modern chat interface that allows users to query databases using natural language, powered by a local LLM. Built with React, TypeScript, Tailwind CSS, and shadcn/ui.
 
