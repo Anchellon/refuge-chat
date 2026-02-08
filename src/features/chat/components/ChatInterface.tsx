@@ -6,13 +6,14 @@ import Header from "@/shared/components/layouts/Header/Header";
 import ChatMessagesList from "./ChatMessagesList";
 import ChatInput from "./ChatInput";
 import type { ChatMessage } from "../types/chat.types";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export default function ChatInterface() {
   const [input, setInput] = useState("");
-
+  console.log(API_URL);
   const { messages, sendMessage, status, error } = useChat({
     transport: new DefaultChatTransport({
-      api: "http://localhost:3000/api/chat",
+      api: `${API_URL}/api/chat`,
     }),
     onFinish: (message) => {
       console.log("✅ Message finished:", message);
