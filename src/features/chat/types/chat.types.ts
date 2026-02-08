@@ -1,16 +1,28 @@
-// features/chat/types/chat.types.ts
-export interface Message {
-  role: "user" | "assistant";
-  content: string;
-  timestamp: string;
+// src/types/chat.ts
+export interface TextPart {
+  type: "text";
+  text: string;
 }
 
-export interface ChatRequest {
-  message: string;
-  history: Message[];
+export interface ToolCallPart {
+  type: "tool-call";
+  toolCallId: string;
+  toolName: string;
+  args: unknown;
 }
 
-export interface ChatResponse {
-  content: string;
-  error?: string;
+export interface ToolResultPart {
+  type: "tool-result";
+  toolCallId: string;
+  toolName: string;
+  result: unknown;
+}
+
+export type MessagePart = TextPart | ToolCallPart | ToolResultPart;
+
+export interface ChatMessage {
+  id: string;
+  role: "user" | "assistant" | "system";
+  parts: MessagePart[];
+  createdAt?: Date;
 }
