@@ -1,74 +1,66 @@
-// src/components/chat/ChatMessagesList.tsx
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRef, useEffect } from "react";
 import ChatMessage from "./ChatMessage";
 import ChatEmptyState from "./ChatEmptyState";
 import ChatError from "./ChatError";
-import type {
-  ChatMessage as ChatMessageType,
-  MessagePart,
-} from "../types/chat.types";
+import type { Message, ChatStatus } from "../types/chat.types";
 
 interface ChatMessagesListProps {
-  messages: ChatMessageType[];
-  status: string;
-  error?: Error | null;
+  messages: Message[];
+  toolStatus: string | null;
+  status: ChatStatus;
+  error: string | null;
 }
 
 export default function ChatMessagesList({
   messages,
+  toolStatus,
   status,
   error,
 }: ChatMessagesListProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, toolStatus]);
 
-  // Type guard for text parts
-  const isTextPart = (
-    part: MessagePart,
-  ): part is { type: "text"; text: string } => {
-    return part.type === "text";
-  };
-
-  // Helper to extract text from message parts
-  const getMessageText = (msg: ChatMessageType): string => {
-    if (!msg.parts || !Array.isArray(msg.parts)) {
-      return "";
-    }
-
-    return msg.parts
-      .filter(isTextPart)
-      .map((p) => p.text)
-      .join("");
-  };
+  const isStreaming = status === "streaming";
+  const lastMessage = messages[messages.length - 1];
 
   return (
     <ScrollArea className="flex-1 px-4">
       <div className="max-w-3xl mx-auto py-6 space-y-4">
-        {/* Empty State */}
         {messages.length === 0 && <ChatEmptyState />}
 
-        {/* Message List */}
-        {messages.map((msg) => {
-          const text = getMessageText(msg);
-          const isUser = msg.role === "user";
+        {messages.map((msg) => (
+          <ChatMessage
+            key={msg.id}
+            content={msg.content}
+            isUser={msg.role === "user"}
+            isStreaming={isStreaming && msg.id === lastMessage?.id}
+          />
+        ))}
 
-          return (
-            <ChatMessage
-              key={msg.id}
-              text={text}
-              isUser={isUser}
-              status={status}
-            />
-          );
-        })}
+        {/* Tool status indicator — visible while the agent is mid-tool-call */}
+        {toolStatus && (
+          <div className="flex gap-3 justify-start">
+            <div className="w-8 h-8 flex-shrink-0" />
+            <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 rounded-lg">
+              <span className="text-sm text-blue-600">{toolStatus}</span>
+              <span className="flex gap-0.5">
+                {[0, 1, 2].map((i) => (
+                  <span
+                    key={i}
+                    className="w-1 h-1 rounded-full bg-blue-400 animate-bounce"
+                    style={{ animationDelay: `${i * 0.15}s` }}
+                  />
+                ))}
+              </span>
+            </div>
+          </div>
+        )}
 
-        {/* Error Display */}
-        {error && <ChatError message={error.message} />}
+        {error && <ChatError message={error} />}
 
         <div ref={messagesEndRef} />
       </div>
